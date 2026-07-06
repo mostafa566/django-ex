@@ -1,0 +1,25 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: python-demo
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/sclorg/django-ex.git
+      ref: 4.2.x
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: python:3.11-ubi9
+  output:
+    to:
+      kind: ImageStreamTag
+      name: python-demo:latest
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+ 
