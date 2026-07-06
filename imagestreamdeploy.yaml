@@ -1,0 +1,29 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: python-demo
+spec:
+  replicas: 1
+  selector:
+    app: python-demo
+  template:
+    metadata:
+      labels:
+        app: python-demo
+    spec:
+      containers:
+        - name: python-demo
+          image: python-demo:latest
+          ports:
+            - containerPort: 8080
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - python-demo
+        from:
+          kind: ImageStreamTag
+          name: python-demo:latest
+ 
